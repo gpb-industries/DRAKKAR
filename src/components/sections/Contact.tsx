@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { Send, MapPin, ArrowUpRight, MessageCircle } from "lucide-react";
 
 export default function Contact() {

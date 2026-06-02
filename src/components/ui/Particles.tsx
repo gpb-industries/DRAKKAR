@@ -14,13 +14,13 @@ interface Particle {
   maxLife: number;
 }
 
+const PARTICLE_COLORS = ["#FFD700", "#00AEEF", "#6A00FF"];
+
 export default function Particles() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particles = useRef<Particle[]>([]);
   const animFrame = useRef<number>(0);
   const mouse = useRef({ x: 0, y: 0 });
-
-  const colors = ["#FFD700", "#00AEEF", "#6A00FF"];
 
   const createParticle = useCallback(
     (x?: number, y?: number): Particle => ({
@@ -30,7 +30,7 @@ export default function Particles() {
       vy: (Math.random() - 0.5) * 0.3,
       size: Math.random() * 2 + 0.5,
       opacity: Math.random() * 0.5 + 0.1,
-      color: colors[Math.floor(Math.random() * colors.length)],
+      color: PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)],
       life: 0,
       maxLife: 200 + Math.random() * 300,
     }),

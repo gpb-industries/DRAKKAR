@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Atom, FlaskConical, Cpu, Rocket, Scan, Activity } from "lucide-react";
+import { Atom, FlaskConical, Cpu, Scan, Activity } from "lucide-react";
 
 const researchAreas = [
   {
@@ -39,6 +39,8 @@ const researchAreas = [
   },
 ];
 
+const barHeights = Array.from({ length: 40 }, () => 20 + Math.random() * 80);
+
 function HUDVisual() {
   return (
     <div className="relative w-full h-64 md:h-80 rounded-2xl glass overflow-hidden">
@@ -70,18 +72,15 @@ function HUDVisual() {
 
       {/* Activity graph */}
       <div className="absolute bottom-4 left-4 right-4 flex items-end gap-1 h-16">
-        {Array.from({ length: 40 }, (_, i) => {
-          const height = 20 + Math.random() * 80;
-          return (
-            <motion.div
-              key={i}
-              initial={{ height: 0 }}
-              animate={{ height: `${height}%` }}
-              transition={{ delay: i * 0.03, duration: 0.8 }}
-              className="flex-1 rounded-t-sm bg-gradient-to-t from-electric-blue/20 to-electric-blue/60"
-            />
-          );
-        })}
+        {barHeights.map((height, i) => (
+          <motion.div
+            key={i}
+            initial={{ height: 0 }}
+            animate={{ height: `${height}%` }}
+            transition={{ delay: i * 0.03, duration: 0.8 }}
+            className="flex-1 rounded-t-sm bg-gradient-to-t from-electric-blue/20 to-electric-blue/60"
+          />
+        ))}
       </div>
 
       {/* Center pulse */}

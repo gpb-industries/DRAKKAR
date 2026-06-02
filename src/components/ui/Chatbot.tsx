@@ -8,7 +8,6 @@ import {
   Send,
   Bot,
   User,
-  ChevronRight,
   Sparkles,
   HelpCircle,
   Building2,
@@ -341,6 +340,12 @@ export default function Chatbot() {
   const [showCategories, setShowCategories] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const msgIdCounter = useRef(0);
+
+  const nextMsgId = () => {
+    msgIdCounter.current += 1;
+    return `msg-${msgIdCounter.current}`;
+  };
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -382,7 +387,7 @@ export default function Chatbot() {
     if (!faq) return;
 
     const userMsg: Message = {
-      id: Date.now().toString(),
+      id: nextMsgId(),
       text: faq.question,
       sender: "user",
       timestamp: new Date(),
@@ -395,21 +400,21 @@ export default function Chatbot() {
     setTimeout(() => {
       setIsTyping(false);
       const botMsg: Message = {
-        id: (Date.now() + 1).toString(),
+        id: nextMsgId(),
         text: faq.answer,
         sender: "bot",
         timestamp: new Date(),
         options: faq.followUp,
       };
       setMessages((prev) => [...prev, botMsg]);
-    }, 800 + Math.random() * 400);
+    }, 900);
   };
 
   const handleSend = () => {
     if (!input.trim()) return;
 
     const userMsg: Message = {
-      id: Date.now().toString(),
+      id: nextMsgId(),
       text: input,
       sender: "user",
       timestamp: new Date(),
@@ -425,14 +430,14 @@ export default function Chatbot() {
       setIsTyping(false);
       const response = getBotResponse(currentInput);
       const botMsg: Message = {
-        id: (Date.now() + 1).toString(),
+        id: nextMsgId(),
         text: response.text,
         sender: "bot",
         timestamp: new Date(),
         options: response.options,
       };
       setMessages((prev) => [...prev, botMsg]);
-    }, 1000 + Math.random() * 500);
+    }, 1100);
   };
 
   const handleReset = () => {

@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Tag, ArrowUpRight, Plus, Bug, Zap, Sparkles, Shield } from "lucide-react";
+import { Plus, Bug, Zap, Shield } from "lucide-react";
 
 const entries = [
   {
