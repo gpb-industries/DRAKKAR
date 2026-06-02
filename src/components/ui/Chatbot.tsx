@@ -1,191 +1,503 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, Bot, User } from "lucide-react";
+import {
+  MessageCircle,
+  X,
+  Send,
+  Bot,
+  User,
+  ChevronRight,
+  Sparkles,
+  HelpCircle,
+  Building2,
+  Rocket,
+  Code2,
+  Users,
+  Calendar,
+  MapPin,
+  ArrowUpRight,
+  RotateCcw,
+} from "lucide-react";
 
 interface Message {
   id: string;
   text: string;
   sender: "bot" | "user";
   timestamp: Date;
+  options?: QuickOption[];
+  isHTML?: boolean;
 }
 
-const faqData: { question: string; answer: string; keywords: string[] }[] = [
+interface QuickOption {
+  label: string;
+  action: string;
+  icon?: React.ReactNode;
+}
+
+interface FAQItem {
+  id: string;
+  category: string;
+  question: string;
+  answer: string;
+  keywords: string[];
+  followUp?: QuickOption[];
+}
+
+const categories = [
+  { id: "general", label: "General", icon: Building2 },
+  { id: "devsactum", label: "DevSactum", icon: Rocket },
+  { id: "tecnologia", label: "Tecnología", icon: Code2 },
+  { id: "carreras", label: "Carreras", icon: Users },
+  { id: "contacto", label: "Contacto", icon: MapPin },
+];
+
+const faqDatabase: FAQItem[] = [
+  // GENERAL
   {
+    id: "que-es-drakkar",
+    category: "general",
     question: "¿Qué es Dräkkar Labs?",
-    answer: "Dräkkar Labs es una startup tecnológica fundada en 2026, con sede en Santiago, Chile (La Pintana). Nos enfocamos en ingeniería de inteligencia artificial, infraestructura cloud y herramientas para desarrollo de software.",
-    keywords: ["drakkar", "labs", "startup", "que es", "empresa"],
+    answer: "Dräkkar Labs es una startup tecnológica fundada en 2026, con sede en La Pintana, Santiago, Chile. Nos especializamos en:\n\n🧠 Inteligencia Artificial\n☁️ Infraestructura Cloud-Native\n🔧 Herramientas para Desarrollo de Software\n\nNuestra misión es ingeniar infraestructura que potencie la evolución del software moderno.",
+    keywords: ["drakkar", "labs", "startup", "que es", "empresa", "compañia"],
+    followUp: [
+      { label: "¿Qué es DevSactum?", action: "que-es-devsactum", icon: <Rocket size={14} /> },
+      { label: "¿Dónde están ubicados?", action: "ubicacion", icon: <MapPin size={14} /> },
+    ],
   },
   {
+    id: "mision",
+    category: "general",
+    question: "¿Cuál es su misión?",
+    answer: "Nuestra misión es ingeniar infraestructura inteligente y plataformas que permitan a las organizaciones construir, escalar y desplegar tecnología con una velocidad, fiabilidad y precisión sin precedentes.\n\nCreemos en el poder de la tecnología para transformar industrias y mejorar vidas.",
+    keywords: ["mision", "objetivo", "proposito", "meta"],
+  },
+  {
+    id: "valores",
+    category: "general",
+    question: "¿Cuáles son sus valores?",
+    answer: "Nuestros valores fundamentales son:\n\n🎯 Excelencia en Ingeniería\n👁️ Pensamiento Visionario\n🌍 Escala Global\n🛡️ Confianza y Seguridad\n⚡ Innovación Incansable\n🔗 Ecosistema Abierto\n\nCada sistema que construimos refleja estos principios.",
+    keywords: ["valores", "principios", "cultura", "filosofia"],
+  },
+  {
+    id: "fundacion",
+    category: "general",
+    question: "¿Cuándo se fundó Dräkkar Labs?",
+    answer: "Dräkkar Labs fue fundada en 2026 en Santiago, Chile. Somos una startup joven con ambición global, enfocada en construir productos tecnológicos que hagan la diferencia.\n\n🚀 Primer producto en desarrollo: DevSactum",
+    keywords: ["fundacion", "cuando", "año", "creacion", "inicio", "nacio"],
+  },
+
+  // DEVSACTUM
+  {
+    id: "que-es-devsactum",
+    category: "devsactum",
     question: "¿Qué es DevSactum?",
-    answer: "DevSactum es nuestro primer producto: una red social para la comunidad de desarrollo de software. Conecta programadores, desarrolladores, startups, estudiantes, profesores y creadores de contenido tech. Su lanzamiento beta será en Septiembre 2026.",
-    keywords: ["devsactum", "red social", "beta", "lanzamiento", "septiembre"],
+    answer: "DevSactum es nuestra red social diseñada para la comunidad de desarrollo de software. Es un espacio donde:\n\n👥 Conectas con desarrolladores globalmente\n💻 Compartes código con syntax highlighting\n💬 Participas en debates técnicos\n📚 Accedes a tutoriales y recursos\n🎥 Compartes contenido multimedia\n💼 Exploras oportunidades laborales\n🎓 Te conectas con mentores y educadores\n\n🚀 Beta: Septiembre 2026",
+    keywords: ["devsactum", "red social", "plataforma", "app", "producto"],
+    followUp: [
+      { label: "¿Cuándo sale la beta?", action: "beta-fecha", icon: <Calendar size={14} /> },
+      { label: "¿Es gratis?", action: "devsactum-precio", icon: <HelpCircle size={14} /> },
+      { label: "¿Cómo me registro?", action: "registro-beta", icon: <Rocket size={14} /> },
+    ],
   },
   {
+    id: "beta-fecha",
+    category: "devsactum",
     question: "¿Cuándo sale la beta de DevSactum?",
-    answer: "La beta de DevSactum está programada para Septiembre 2026. Puedes registrarte en nuestra sección de contacto para acceder anticipadamente.",
-    keywords: ["beta", "fecha", "lanzamiento", "septiembre", "cuando"],
+    answer: "📅 La beta de DevSactum está programada para **Septiembre 2026**.\n\nEstamos en plena fase de desarrollo y la beta será accesible para los primeros registros.\n\n¿Quieres ser de los primeros en probarla?",
+    keywords: ["beta", "fecha", "lanzamiento", "septiembre", "cuando", "salida"],
+    followUp: [
+      { label: "Quiero registrarme", action: "registro-beta", icon: <Rocket size={14} /> },
+    ],
   },
   {
+    id: "registro-beta",
+    category: "devsactum",
+    question: "¿Cómo me registro para la beta?",
+    answer: "Para acceder a la beta de DevSactum:\n\n1️⃣ Haz scroll hasta la sección de **Contacto**\n2️⃣ Completa el formulario indicando tu interés en DevSactum\n3️⃣ Te contactaremos cuando esté lista la beta\n\nTambién puedes seguirnos en nuestras redes sociales para actualizaciones.",
+    keywords: ["registro", "inscribirse", "anotarse", "como", "unirme", "acceder"],
+    followUp: [
+      { label: "Ir a Contacto", action: "ir-contacto", icon: <ArrowUpRight size={14} /> },
+    ],
+  },
+  {
+    id: "devsactum-precio",
+    category: "devsactum",
+    question: "¿DevSactum es gratis?",
+    answer: "Sí, DevSactum será **gratuito para usuarios individuales**.\n\nOfreceremos:\n\n🆓 **Plan Gratis** — Todas las funciones base\n⭐ **Plan Premium** — Funciones avanzadas para profesionales\n🏢 **Plan Enterprise** — Para empresas y equipos\n\nLos detalles exactos se publicarán antes del lanzamiento beta.",
+    keywords: ["gratis", "precio", "costo", "planes", "premium", "pago", "cuanto cuesta"],
+  },
+  {
+    id: "funciones-devsactum",
+    category: "devsactum",
+    question: "¿Qué funciones tendrá DevSactum?",
+    answer: "DevSactum incluirá:\n\n💻 **Feed de Código** — Publica snippets con syntax highlighting\n💬 **Debates Técnicos** — Discute arquitecturas y frameworks\n📚 **Tutoriales** — Contenido educativo de la comunidad\n🎥 **Streaming** — Comparte livestreams y demos\n💼 **Job Board** — Oportunidades de empleo tech\n🎓 **Mentoría** — Conecta con mentores experimentados\n🏢 **Perfiles de Empresa** — Startups y empresas tech\n📊 **Analytics** — Métricas de tu actividad\n\nY mucho más por venir.",
+    keywords: ["funciones", "features", "que tiene", "que puedo hacer", "opciones"],
+  },
+  {
+    id: "devsactum-audiencia",
+    category: "devsactum",
+    question: "¿Para quién es DevSactum?",
+    answer: "DevSactum está diseñado para:\n\n👨‍💻 **Desarrolladores de Software** — Frontend, Backend, Fullstack\n🚀 **Startups y Empresas** — Recluta talento tech\n🎓 **Estudiantes de Programación** — Aprende y conecta\n👩‍🏫 **Profesores** — Comparte conocimiento\n✍️ **Creadores de Contenido Tech** — Crea y monetiza\n🤖 **Ingenieros de IA** — Comparte proyectos de ML/AI\n\nSi construyes tecnología, DevSactum es para ti.",
+    keywords: ["audiencia", "para quien", "usuarios", "desarrolladores", "programadores"],
+  },
+
+  // TECNOLOGÍA
+  {
+    id: "stack",
+    category: "tecnologia",
+    question: "¿Qué tecnologías usan?",
+    answer: "Nuestro stack tecnológico incluye:\n\n**Frontend:**\n⚛️ Next.js 16 · React 19 · TypeScript · TailwindCSS\n\n**Backend:**\n🟢 Node.js · NestJS · GraphQL · REST APIs\n\n**Infraestructura:**\n🐳 Docker · Kubernetes · Terraform\n\n**Datos:**\n🗄️ PostgreSQL · Redis · Kafka\n\n**IA/ML:**\n🧠 Python · TensorFlow · PyTorch\n\n**DevOps:**\n⚙️ GitHub Actions · CI/CD · GitOps",
+    keywords: ["tecnologias", "stack", "lenguajes", "herramientas", "frameworks"],
+  },
+  {
+    id: "arquitectura",
+    category: "tecnologia",
+    question: "¿Cómo es su arquitectura?",
+    answer: "Nuestra arquitectura se basa en 4 capas:\n\n**1. Presentación** — Next.js, React, TypeScript\n**2. API Gateway** — GraphQL, REST, gRPC\n**3. Servicios** — Motor IA, Core Platform, Analytics\n**4. Infraestructura** — Kubernetes, Terraform, Prometheus\n\nDiseñada para:\n⚡ Rendimiento extremo\n🔄 Auto-escalabilidad\n🛡️ Seguridad en cada capa\n🌍 Despliegue multi-region",
+    keywords: ["arquitectura", "sistema", "estructura", "capas"],
+  },
+  {
+    id: "open-source",
+    category: "tecnologia",
+    question: "¿Tienen proyectos open source?",
+    answer: "Sí, estamos comprometidos con el código abierto.\n\nPróximamente publicaremos:\n🔧 Componentes reutilizables\n📚 Herramientas de desarrollo\n📖 Documentación y guías\n\nSíguenos en GitHub para estar al tanto:\ngithub.com/gpb-industries/DRAKKAR",
+    keywords: ["open source", "codigo abierto", "github", "repositorio"],
+  },
+
+  // CARRERAS
+  {
+    id: "trabajar",
+    category: "carreras",
+    question: "¿Puedo trabajar con ustedes?",
+    answer: "¡Sí! Estamos buscando talento para nuestro equipo.\n\nPosiciones abiertas:\n\n🟡 **Ingeniero Frontend Senior** — Equipo DevSactum\n🟡 **Ingeniero Backend Senior** — Equipo DevSactum\n🟡 **Diseñador UI/UX** — Equipo DevSactum\n🟡 **Ingeniero de IA** — Investigación\n🟡 **Ingeniero de Plataforma** — Infraestructura\n🟡 **DevRel / Developer Advocate** — DevSactum\n\n📍 Todas las posiciones son **100% remotas**",
+    keywords: ["trabajo", "empleo", "carrera", "equipo", "contratar", "remoto", "vacantes"],
+    followUp: [
+      { label: "Ver posiciones", action: "ver-carreras", icon: <Users size={14} /> },
+    ],
+  },
+  {
+    id: "cultura",
+    category: "carreras",
+    question: "¿Cómo es la cultura de trabajo?",
+    answer: "En Dräkkar Labs valoramos:\n\n🌍 **Remoto-Primero** — Trabaja desde cualquier parte\n🚀 **Alto Rendimiento** — Estándares de excelencia\n💡 **Innovación** — 20% del tiempo para I+D\n👥 **Equipos de Élite** — Autónomos y expertos\n📚 **Aprendizaje Continuo** — Crecimiento constante\n⚖️ **Work-Life Balance** — Equilibrio vida-trabajo\n\nCreemos en el talento, no en la oficina.",
+    keywords: ["cultura", "ambiente", "work life balance", "remoto", "equipo"],
+  },
+  {
+    id: "beneficios",
+    category: "carreras",
+    question: "¿Qué beneficios ofrecen?",
+    answer: "Beneficios de trabajar en Dräkkar Labs:\n\n💰 **Competitivo** — Salarios al nivel del mercado global\n🏠 **100% Remoto** — Sin commuting\n📚 **Aprendizaje** — Presupuesto para cursos y conferencias\n🖥️ **Equipamiento** — Setup de home office\n🏥 **Salud** — Seguro médico\n🌴 **Vacaciones** — Politica flexible\n📈 **Equity** — Participación en la empresa para roles clave\n\nY un equipo increíble con el que construir el futuro.",
+    keywords: ["beneficios", "salario", "vacaciones", "seguro", "perks"],
+  },
+
+  // CONTACTO
+  {
+    id: "ubicacion",
+    category: "contacto",
     question: "¿Dónde están ubicados?",
-    answer: "Nuestra sede central está en La Pintana, Santiago, Chile. Actualmente somos un equipo remoto y no contamos con otras oficinas físicas.",
+    answer: "📍 **Sede Central**\nLa Pintana, Santiago, Chile\n\nSomos un equipo 100% remoto, por lo que no contamos con oficinas físicas abiertas al público.\n\nPuedes contactarnos a través de:\n📝 Formulario de contacto en esta página\n🌐 Nuestras redes sociales (próximamente)",
     keywords: ["ubicacion", "oficina", "sede", "chile", "santiago", "donde"],
   },
   {
-    question: "¿En qué se diferencian de otras empresas?",
-    answer: "Somos una startup nacida en Chile con visión global. Combinamos ingeniería de élite con un enfoque en productos que realmente importan para la comunidad de desarrolladores. DevSactum nace de la necesidad real de una red social hecha por y para programadores.",
-    keywords: ["diferencia", "unico", "por que", "ventaja"],
+    id: "contactar",
+    category: "contacto",
+    question: "¿Cómo puedo contactarlos?",
+    answer: "Puedes contactarnos de varias formas:\n\n📝 **Formulario** — Usa el formulario en la sección de Contacto\n🌐 **GitHub** — github.com/gpb-industries/DRAKKAR\n💼 **LinkedIn** — Próximamente\n🐦 **Twitter/X** — Próximamente\n\nResponderemos lo antes posible.",
+    keywords: ["contactar", "contacto", "comunicarse", "hablar", "escribir"],
+    followUp: [
+      { label: "Ir a Contacto", action: "ir-contacto", icon: <ArrowUpRight size={14} /> },
+    ],
   },
   {
-    question: "¿Puedo trabajar con ustedes?",
-    answer: "¡Sí! Estamos buscando talento para el equipo de DevSactum y nuestra infraestructura. Revisa la sección de Carreras en el sitio para ver las posiciones abiertas. Todas son remotas.",
-    keywords: ["trabajo", "empleo", "carrera", "equipo", "contratar", "remoto"],
+    id: "ir-contacto",
+    category: "contacto",
+    question: "Navegando a Contacto...",
+    answer: "scroll-contacto",
+    keywords: [],
   },
   {
-    question: "¿Qué tecnologías usan?",
-    answer: "Nuestro stack incluye Next.js, TypeScript, React, Node.js, Python, Kubernetes, PostgreSQL, Redis, y herramientas de IA/ML. Diseñamos todo con arquitectura cloud-native y escalable.",
-    keywords: ["tecnologias", "stack", "lenguajes", "herramientas"],
-  },
-  {
-    question: "¿DevSactum es gratis?",
-    answer: "DevSactum será gratuito para usuarios individuales. Ofreceremos planes premium para empresas y funciones avanzadas. Los detalles exactos se publicarán antes del lanzamiento beta.",
-    keywords: ["gratis", "precio", "costo", "planes", "premium", "pago"],
-  },
-  {
-    question: "¿Cómo me registro para la beta?",
-    answer: "Puedes escribirnos a través del formulario de contacto en esta página, indicando tu interés en DevSactum Beta. También puedes seguirnos en nuestras redes sociales para estar al tanto.",
-    keywords: ["registro", "beta", "inscribirse", "anotarse", "como"],
-  },
-  {
-    question: "¿Qué tipo de contenido tendré en DevSactum?",
-    answer: "DevSactum incluirá: publicaciones de código con syntax highlighting, debates técnicos, tutoriales, oportunidades laborales, contenido de creadores tech, y espacios para estudiantes y profesores.",
-    keywords: ["contenido", "funciones", "publicaciones", "codigo"],
+    id: "ir-carreras",
+    category: "carreras",
+    question: "Navegando a Carreras...",
+    answer: "scroll-careers",
+    keywords: [],
   },
 ];
 
-function getBotResponse(input: string): string {
-  const lower = input.toLowerCase();
+function findBestMatch(input: string): FAQItem | null {
+  const lower = input.toLowerCase().trim();
 
-  const bestMatch = faqData.find((faq) =>
-    faq.keywords.some((keyword) => lower.includes(keyword))
+  // Exact match in keywords
+  for (const faq of faqDatabase) {
+    if (faq.keywords.some((kw) => lower === kw || lower.includes(kw))) {
+      return faq;
+    }
+  }
+
+  // Partial match
+  for (const faq of faqDatabase) {
+    if (faq.keywords.some((kw) => lower.split(" ").includes(kw))) {
+      return faq;
+    }
+  }
+
+  return null;
+}
+
+function getBotResponse(input: string): { text: string; options?: QuickOption[] } {
+  const lower = input.toLowerCase().trim();
+
+  // Greetings
+  if (/^(hola|buenas|hey|saludos|que tal|buenos|buenas dias|buenas tardes|buenas noches)/i.test(lower)) {
+    return {
+      text: "¡Hola! 👋 Bienvenido a Dräkkar Labs. Soy tu asistente virtual.\n\n¿En qué puedo ayudarte hoy?",
+      options: [
+        { label: "¿Qué es Dräkkar Labs?", action: "que-es-drakkar", icon: <Building2 size={14} /> },
+        { label: "DevSactum", action: "que-es-devsactum", icon: <Rocket size={14} /> },
+        { label: "Ver carreras", action: "trabajar", icon: <Users size={14} /> },
+      ],
+    };
+  }
+
+  // Thanks
+  if (/^(gracias|thanks|thx|agradezco)/i.test(lower)) {
+    return {
+      text: "¡De nada! 😊 Estoy aquí si tienes más preguntas.\n\n¿Hay algo más en lo que pueda ayudarte?",
+      options: [
+        { label: "Volver al inicio", action: "inicio", icon: <RotateCcw size={14} /> },
+      ],
+    };
+  }
+
+  // Help
+  if (/^(ayuda|help|opciones|que puedo)/i.test(lower)) {
+    return {
+      text: "Puedo ayudarte con estas áreas:",
+      options: [
+        { label: "General", action: "que-es-drakkar", icon: <Building2 size={14} /> },
+        { label: "DevSactum", action: "que-es-devsactum", icon: <Rocket size={14} /> },
+        { label: "Tecnología", action: "stack", icon: <Code2 size={14} /> },
+        { label: "Carreras", action: "trabajar", icon: <Users size={14} /> },
+        { label: "Contacto", action: "ubicacion", icon: <MapPin size={14} /> },
+      ],
+    };
+  }
+
+  // FAQ match
+  const match = findBestMatch(lower);
+  if (match) {
+    if (match.answer === "scroll-contacto") {
+      document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+      return { text: "Te redirijo a la sección de Contacto 👇" };
+    }
+    if (match.answer === "scroll-careers") {
+      document.getElementById("careers")?.scrollIntoView({ behavior: "smooth" });
+      return { text: "Te redirijo a la sección de Carreras 👇" };
+    }
+    return { text: match.answer, options: match.followUp };
+  }
+
+  // Default
+  return {
+    text: "No tengo una respuesta exacta para eso, pero puedo ayudarte con:\n\n🏢 Sobre Dräkkar Labs\n🚀 DevSactum\n💻 Tecnología\n💼 Carreras\n📍 Contacto\n\n¿Qué te gustaría saber?",
+    options: [
+      { label: "General", action: "que-es-drakkar", icon: <Building2 size={14} /> },
+      { label: "DevSactum", action: "que-es-devsactum", icon: <Rocket size={14} /> },
+      { label: "Tecnología", action: "stack", icon: <Code2 size={14} /> },
+    ],
+  };
+}
+
+function TypingIndicator() {
+  return (
+    <div className="flex items-center gap-1.5 px-4 py-3">
+      <div className="flex gap-1">
+        {[0, 1, 2].map((i) => (
+          <motion.div
+            key={i}
+            className="w-2 h-2 rounded-full bg-gold/60"
+            animate={{ y: [0, -6, 0] }}
+            transition={{
+              duration: 0.6,
+              delay: i * 0.15,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+      </div>
+      <span className="text-[10px] text-muted/30 ml-1">escribiendo...</span>
+    </div>
   );
-
-  if (bestMatch) {
-    return bestMatch.answer;
-  }
-
-  if (lower.includes("hola") || lower.includes("buenas") || lower.includes("hey")) {
-    return "¡Hola! Soy el asistente de Dräkkar Labs. Puedo responder preguntas sobre nuestra empresa, DevSactum, tecnología o carreras. ¿Qué te gustaría saber?";
-  }
-
-  if (lower.includes("gracias")) {
-    return "¡De nada! Si tienes más preguntas, no dudes en preguntar. 😊";
-  }
-
-  return "No tengo una respuesta específica para eso. Puedes preguntarme sobre Dräkkar Labs, DevSactum,我们的 tecnología, ubicación, carreras o fecha de la beta. También puedes escribirnos a través del formulario de contacto.";
 }
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      text: "¡Hola! Soy el asistente de Dräkkar Labs. ¿En qué puedo ayudarte? Pregúntame sobre DevSactum, nuestra empresa, tecnología o carreras.",
-      sender: "bot",
-      timestamp: new Date(),
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const [showCategories, setShowCategories] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const scrollToBottom = () => {
+  const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, isTyping, scrollToBottom]);
+
+  useEffect(() => {
+    if (isOpen && messages.length === 0) {
+      setTimeout(() => {
+        setMessages([
+          {
+            id: "welcome",
+            text: "¡Bienvenido a **Dräkkar Labs**! 👋\n\nSoy tu asistente virtual. Puedo ayudarte con información sobre nuestra empresa, DevSactum, tecnología, carreras y más.\n\n¿Qué te gustaría saber?",
+            sender: "bot",
+            timestamp: new Date(),
+            options: [
+              { label: "¿Qué es Dräkkar Labs?", action: "que-es-drakkar", icon: <Building2 size={14} /> },
+              { label: "¿Qué es DevSactum?", action: "que-es-devsactum", icon: <Rocket size={14} /> },
+              { label: "Ver carreras", action: "trabajar", icon: <Users size={14} /> },
+              { label: "Contacto", action: "ubicacion", icon: <MapPin size={14} /> },
+            ],
+          },
+        ]);
+      }, 500);
+    }
+  }, [isOpen, messages.length]);
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => inputRef.current?.focus(), 300);
+    }
+  }, [isOpen]);
+
+  const handleOptionClick = (action: string) => {
+    const faq = faqDatabase.find((f) => f.id === action);
+    if (!faq) return;
+
+    const userMsg: Message = {
+      id: Date.now().toString(),
+      text: faq.question,
+      sender: "user",
+      timestamp: new Date(),
+    };
+
+    setMessages((prev) => [...prev, userMsg]);
+    setShowCategories(false);
+    setIsTyping(true);
+
+    setTimeout(() => {
+      setIsTyping(false);
+      const botMsg: Message = {
+        id: (Date.now() + 1).toString(),
+        text: faq.answer,
+        sender: "bot",
+        timestamp: new Date(),
+        options: faq.followUp,
+      };
+      setMessages((prev) => [...prev, botMsg]);
+    }, 800 + Math.random() * 400);
+  };
 
   const handleSend = () => {
     if (!input.trim()) return;
 
-    const userMessage: Message = {
+    const userMsg: Message = {
       id: Date.now().toString(),
       text: input,
       sender: "user",
       timestamp: new Date(),
     };
 
-    setMessages((prev) => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMsg]);
+    const currentInput = input;
     setInput("");
+    setShowCategories(false);
+    setIsTyping(true);
 
     setTimeout(() => {
-      const botResponse: Message = {
+      setIsTyping(false);
+      const response = getBotResponse(currentInput);
+      const botMsg: Message = {
         id: (Date.now() + 1).toString(),
-        text: getBotResponse(input),
+        text: response.text,
         sender: "bot",
         timestamp: new Date(),
+        options: response.options,
       };
-      setMessages((prev) => [...prev, botResponse]);
-    }, 600);
+      setMessages((prev) => [...prev, botMsg]);
+    }, 1000 + Math.random() * 500);
   };
 
-  const handleQuickQuestion = (question: string) => {
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      text: question,
-      sender: "user",
-      timestamp: new Date(),
-    };
-
-    setMessages((prev) => [...prev, userMessage]);
-
+  const handleReset = () => {
+    setMessages([]);
+    setShowCategories(true);
     setTimeout(() => {
-      const botResponse: Message = {
-        id: (Date.now() + 1).toString(),
-        text: getBotResponse(question),
-        sender: "bot",
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, botResponse]);
-    }, 600);
+      setMessages([
+        {
+          id: "welcome-reset",
+          text: "¡Hola de nuevo! 👋 ¿En qué puedo ayudarte?",
+          sender: "bot",
+          timestamp: new Date(),
+          options: [
+            { label: "Dräkkar Labs", action: "que-es-drakkar", icon: <Building2 size={14} /> },
+            { label: "DevSactum", action: "que-es-devsactum", icon: <Rocket size={14} /> },
+            { label: "Tecnología", action: "stack", icon: <Code2 size={14} /> },
+            { label: "Carreras", action: "trabajar", icon: <Users size={14} /> },
+          ],
+        },
+      ]);
+    }, 300);
+  };
+
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit" });
   };
 
   return (
     <>
-      {/* Chat toggle button */}
+      {/* Toggle button */}
       <motion.button
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 3, duration: 0.5, type: "spring" }}
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-8 left-8 z-50 w-14 h-14 rounded-2xl bg-gradient-to-br from-gold to-[#FFA500] text-[#050816] flex items-center justify-center shadow-[0_0_30px_rgba(255,215,0,0.3)] hover:shadow-[0_0_50px_rgba(255,215,0,0.4)] transition-all duration-300"
-        aria-label="Abrir chat de FAQ"
+        className="fixed bottom-8 left-8 z-50 group"
+        aria-label={isOpen ? "Cerrar chat" : "Abrir chat"}
       >
-        <AnimatePresence mode="wait">
-          {isOpen ? (
-            <motion.div
-              key="close"
-              initial={{ rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: 90, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <X size={22} />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="open"
-              initial={{ rotate: 90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: -90, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <MessageCircle size={22} />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <div className="relative">
+          {/* Pulse ring */}
+          <AnimatePresence>
+            {!isOpen && (
+              <motion.div
+                initial={{ scale: 1, opacity: 0.5 }}
+                animate={{ scale: 1.6, opacity: 0 }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+                className="absolute inset-0 rounded-2xl bg-gold"
+              />
+            )}
+          </AnimatePresence>
+
+          <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-gold to-[#FFA500] text-[#050816] flex items-center justify-center shadow-[0_0_30px_rgba(255,215,0,0.3)] group-hover:shadow-[0_0_50px_rgba(255,215,0,0.5)] transition-all duration-300">
+            <AnimatePresence mode="wait">
+              {isOpen ? (
+                <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.2 }}>
+                  <X size={22} />
+                </motion.div>
+              ) : (
+                <motion.div key="open" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.2 }}>
+                  <MessageCircle size={22} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
       </motion.button>
 
       {/* Chat window */}
@@ -196,78 +508,158 @@ export default function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed bottom-24 left-8 z-50 w-[380px] max-w-[calc(100vw-4rem)] rounded-2xl glass border border-white/10 overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.5)]"
+            className="fixed bottom-24 left-8 z-50 w-[400px] max-w-[calc(100vw-4rem)] rounded-2xl overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.6)] border border-white/10"
+            style={{ background: "linear-gradient(180deg, #0A1020 0%, #050816 100%)" }}
           >
             {/* Header */}
-            <div className="p-4 border-b border-white/5 bg-gradient-to-r from-gold/5 to-electric-blue/5">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gold/20 to-electric-blue/20 flex items-center justify-center">
-                  <Bot size={20} className="text-gold" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-sm">Dräkkar Assistant</h4>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                    <span className="text-[10px] text-muted/40">En línea</span>
+            <div className="relative p-4 border-b border-white/5">
+              <div className="absolute inset-0 bg-gradient-to-r from-gold/5 via-electric-blue/5 to-deep-purple/5" />
+              <div className="relative flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="relative">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gold/20 to-electric-blue/20 flex items-center justify-center">
+                      <Bot size={20} className="text-gold" />
+                    </div>
+                    <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-green-500 border-2 border-[#0A1020]" />
                   </div>
+                  <div>
+                    <h4 className="font-semibold text-sm">Dräkkar Assistant</h4>
+                    <div className="flex items-center gap-1.5">
+                      <Sparkles size={10} className="text-gold" />
+                      <span className="text-[10px] text-muted/40">En línea · IA Avanzada</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={handleReset}
+                    className="p-2 rounded-lg hover:bg-white/5 text-muted/40 hover:text-white transition-all"
+                    aria-label="Reiniciar chat"
+                  >
+                    <RotateCcw size={14} />
+                  </button>
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="p-2 rounded-lg hover:bg-white/5 text-muted/40 hover:text-white transition-all"
+                    aria-label="Cerrar chat"
+                  >
+                    <X size={14} />
+                  </button>
                 </div>
               </div>
             </div>
 
-            {/* Messages */}
-            <div className="h-80 overflow-y-auto p-4 space-y-4">
-              {messages.map((msg) => (
+            {/* Categories */}
+            <AnimatePresence>
+              {showCategories && (
                 <motion.div
-                  key={msg.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className={`flex gap-2.5 ${msg.sender === "user" ? "flex-row-reverse" : ""}`}
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className="border-b border-white/5 overflow-hidden"
                 >
-                  <div
-                    className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
-                      msg.sender === "bot"
-                        ? "bg-gradient-to-br from-gold/20 to-electric-blue/20"
-                        : "bg-deep-purple/20"
-                    }`}
-                  >
-                    {msg.sender === "bot" ? (
-                      <Bot size={14} className="text-gold" />
-                    ) : (
-                      <User size={14} className="text-deep-purple" />
-                    )}
-                  </div>
-                  <div
-                    className={`max-w-[80%] px-3.5 py-2.5 rounded-xl text-sm leading-relaxed ${
-                      msg.sender === "bot"
-                        ? "bg-white/[0.04] text-muted/80 border border-white/5"
-                        : "bg-gold/10 text-gold border border-gold/20"
-                    }`}
-                  >
-                    {msg.text}
+                  <div className="p-3 flex gap-1.5 overflow-x-auto scrollbar-hide">
+                    {categories.map((cat) => (
+                      <button
+                        key={cat.id}
+                        onClick={() => handleOptionClick(
+                          cat.id === "general" ? "que-es-drakkar" :
+                          cat.id === "devsactum" ? "que-es-devsactum" :
+                          cat.id === "tecnologia" ? "stack" :
+                          cat.id === "carreras" ? "trabajar" :
+                          "ubicacion"
+                        )}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium bg-white/[0.03] text-muted/50 border border-white/5 hover:border-gold/20 hover:text-gold hover:bg-gold/5 transition-all duration-300 whitespace-nowrap shrink-0"
+                      >
+                        <cat.icon size={12} />
+                        {cat.label}
+                      </button>
+                    ))}
                   </div>
                 </motion.div>
-              ))}
+              )}
+            </AnimatePresence>
+
+            {/* Messages */}
+            <div className="h-80 overflow-y-auto p-4 space-y-4 scrollbar-thin">
+              <AnimatePresence>
+                {messages.map((msg) => (
+                  <motion.div
+                    key={msg.id}
+                    initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className={`flex gap-2.5 ${msg.sender === "user" ? "flex-row-reverse" : ""}`}
+                  >
+                    {msg.sender === "bot" && (
+                      <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-gold/20 to-electric-blue/20 flex items-center justify-center shrink-0 mt-1">
+                        <Bot size={14} className="text-gold" />
+                      </div>
+                    )}
+                    <div className={`max-w-[85%] ${msg.sender === "user" ? "items-end" : "items-start"}`}>
+                      <div
+                        className={`px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed whitespace-pre-line ${
+                          msg.sender === "user"
+                            ? "bg-gradient-to-r from-gold/15 to-[#FFA500]/15 text-white border border-gold/20 rounded-br-md"
+                            : "bg-white/[0.04] text-muted/80 border border-white/5 rounded-bl-md"
+                        }`}
+                      >
+                        {msg.text.split("**").map((part, i) =>
+                          i % 2 === 1 ? (
+                            <strong key={i} className="text-white font-semibold">{part}</strong>
+                          ) : (
+                            <span key={i}>{part}</span>
+                          )
+                        )}
+                      </div>
+                      <div className={`text-[9px] text-muted/20 mt-1 px-1 ${msg.sender === "user" ? "text-right" : ""}`}>
+                        {formatTime(msg.timestamp)}
+                      </div>
+
+                      {/* Quick options */}
+                      {msg.options && msg.sender === "bot" && (
+                        <div className="flex flex-wrap gap-1.5 mt-2">
+                          {msg.options.map((opt) => (
+                            <button
+                              key={opt.action}
+                              onClick={() => handleOptionClick(opt.action)}
+                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium bg-gold/5 text-gold/70 border border-gold/10 hover:border-gold/30 hover:text-gold hover:bg-gold/10 transition-all duration-300"
+                            >
+                              {opt.icon}
+                              {opt.label}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    {msg.sender === "user" && (
+                      <div className="w-7 h-7 rounded-lg bg-deep-purple/20 flex items-center justify-center shrink-0 mt-1">
+                        <User size={14} className="text-deep-purple" />
+                      </div>
+                    )}
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+
+              {isTyping && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex gap-2.5"
+                >
+                  <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-gold/20 to-electric-blue/20 flex items-center justify-center shrink-0">
+                    <Bot size={14} className="text-gold" />
+                  </div>
+                  <div className="bg-white/[0.04] border border-white/5 rounded-2xl rounded-bl-md">
+                    <TypingIndicator />
+                  </div>
+                </motion.div>
+              )}
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Quick questions */}
-            {messages.length <= 2 && (
-              <div className="px-4 pb-3 flex flex-wrap gap-2">
-                {["¿Qué es DevSactum?", "¿Cuándo sale la beta?", "¿Dónde están?"].map((q) => (
-                  <button
-                    key={q}
-                    onClick={() => handleQuickQuestion(q)}
-                    className="px-3 py-1.5 text-[11px] rounded-full bg-white/[0.04] text-muted/50 border border-white/5 hover:border-gold/20 hover:text-gold transition-all duration-300"
-                  >
-                    {q}
-                  </button>
-                ))}
-              </div>
-            )}
-
             {/* Input */}
-            <div className="p-3 border-t border-white/5">
+            <div className="p-3 border-t border-white/5 bg-[#050816]/50">
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -276,16 +668,18 @@ export default function Chatbot() {
                 className="flex items-center gap-2"
               >
                 <input
+                  ref={inputRef}
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Escribe tu pregunta..."
-                  className="flex-1 px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/5 text-sm text-white placeholder:text-muted/20 focus:outline-none focus:border-gold/30 transition-all"
+                  disabled={isTyping}
+                  className="flex-1 px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/5 text-sm text-white placeholder:text-muted/20 focus:outline-none focus:border-gold/30 focus:ring-1 focus:ring-gold/10 transition-all disabled:opacity-50"
                 />
                 <button
                   type="submit"
-                  disabled={!input.trim()}
-                  className="w-10 h-10 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center text-gold hover:bg-gold/20 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300"
+                  disabled={!input.trim() || isTyping}
+                  className="w-10 h-10 rounded-xl bg-gradient-to-br from-gold/20 to-electric-blue/20 border border-gold/20 flex items-center justify-center text-gold hover:from-gold/30 hover:to-electric-blue/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300"
                 >
                   <Send size={16} />
                 </button>
