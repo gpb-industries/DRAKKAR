@@ -7,7 +7,13 @@ import Products from "@/components/sections/Products";
 import Services from "@/components/sections/Services";
 import Technology from "@/components/sections/Technology";
 import InnovationLab from "@/components/sections/InnovationLab";
+import Roadmap from "@/components/sections/Roadmap";
 import Careers from "@/components/sections/Careers";
+import Blog from "@/components/sections/Blog";
+import Changelog from "@/components/sections/Changelog";
+import Testimonials from "@/components/sections/Testimonials";
+import Partners from "@/components/sections/Partners";
+import Newsletter from "@/components/sections/Newsletter";
 import Contact from "@/components/sections/Contact";
 import Preloader from "@/components/ui/Preloader";
 import ScrollToTop from "@/components/ui/ScrollToTop";
@@ -26,7 +32,13 @@ export default function Home() {
         <Services />
         <Technology />
         <InnovationLab />
+        <Roadmap />
+        <Blog />
+        <Changelog />
         <Careers />
+        <Testimonials />
+        <Partners />
+        <Newsletter />
         <Contact />
       </main>
       <Footer />

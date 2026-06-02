@@ -10,8 +10,8 @@ const navLinks = [
   { label: "DevSactum", href: "#devsactum" },
   { label: "Nosotros", href: "#about" },
   { label: "Plataforma", href: "#products" },
-  { label: "Servicios", href: "#services" },
-  { label: "Tecnología", href: "#technology" },
+  { label: "Roadmap", href: "#roadmap" },
+  { label: "Blog", href: "#blog" },
   { label: "Carreras", href: "#careers" },
   { label: "Contacto", href: "#contact" },
 ];
