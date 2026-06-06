@@ -4,8 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
-
 const navLinks = [
   { label: "DevSactum", href: "#devsactum" },
   { label: "Nosotros", href: "#about" },
@@ -53,14 +51,8 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           <a href="#" className="flex items-center gap-3 group">
-            <div className="relative w-10 h-10 rounded-xl overflow-hidden ring-1 ring-white/10 group-hover:ring-gold/30 transition-all duration-300">
-              <Image
-                src="/drakkar-logo.png"
-                alt="Dräkkar Labs"
-                fill
-                className="object-cover"
-                priority
-              />
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gold to-[#FFA500] flex items-center justify-center text-[#050816] font-bold text-lg ring-1 ring-white/10 group-hover:ring-gold/30 transition-all duration-300">
+              D
             </div>
             <span className="text-lg font-semibold tracking-tight hidden sm:block">
               Dräkkar<span className="text-gold">Labs</span>

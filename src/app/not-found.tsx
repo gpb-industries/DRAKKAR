@@ -1,17 +1,10 @@
 import Link from "next/link";
-import Image from "next/image";
-
 export default function NotFound() {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-6">
       <div className="text-center">
-        <div className="relative w-24 h-24 mx-auto mb-8 rounded-2xl overflow-hidden ring-2 ring-white/10">
-          <Image
-            src="/drakkar-logo.png"
-            alt="Dräkkar Labs"
-            fill
-            className="object-cover"
-          />
+        <div className="w-24 h-24 mx-auto mb-8 rounded-2xl bg-gradient-to-br from-gold to-[#FFA500] flex items-center justify-center text-[#050816] font-bold text-4xl ring-2 ring-white/10">
+          D
         </div>
         <h1 className="text-8xl font-bold gradient-text mb-4">404</h1>
         <h2 className="text-2xl font-semibold mb-4">Página no encontrada</h2>

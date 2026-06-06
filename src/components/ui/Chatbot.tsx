@@ -56,7 +56,7 @@ const faqDatabase: FAQItem[] = [
     id: "que-es-drakkar",
     category: "general",
     question: "¿Qué es Dräkkar Labs?",
-    answer: "Dräkkar Labs es una startup tecnológica fundada en 2026, con sede en La Pintana, Santiago, Chile. Nos especializamos en:\n\n🧠 Inteligencia Artificial\n☁️ Infraestructura Cloud-Native\n🔧 Herramientas para Desarrollo de Software\n\nNuestra misión es ingeniar infraestructura que potencie la evolución del software moderno.",
+    answer: "Dräkkar Labs es una startup tecnológica fundada en 2026, con sede en La Pintana, Santiago, Chile. Nos especializamos en:\n\n- Inteligencia Artificial\n- Infraestructura Cloud-Native\n- Herramientas para Desarrollo de Software\n\nNuestra misión es ingeniar infraestructura que potencie la evolución del software moderno.",
     keywords: ["drakkar", "labs", "startup", "que es", "empresa", "compañia"],
     followUp: [
       { label: "¿Qué es DevSactum?", action: "que-es-devsactum", icon: <Rocket size={14} /> },
@@ -74,14 +74,14 @@ const faqDatabase: FAQItem[] = [
     id: "valores",
     category: "general",
     question: "¿Cuáles son sus valores?",
-    answer: "Nuestros valores fundamentales son:\n\n🎯 Excelencia en Ingeniería\n👁️ Pensamiento Visionario\n🌍 Escala Global\n🛡️ Confianza y Seguridad\n⚡ Innovación Incansable\n🔗 Ecosistema Abierto\n\nCada sistema que construimos refleja estos principios.",
+    answer: "Nuestros valores fundamentales son:\n\n- Excelencia en Ingeniería\n- Pensamiento Visionario\n- Escala Global\n- Confianza y Seguridad\n- Innovación Incansable\n- Ecosistema Abierto\n\nCada sistema que construimos refleja estos principios.",
     keywords: ["valores", "principios", "cultura", "filosofia"],
   },
   {
     id: "fundacion",
     category: "general",
     question: "¿Cuándo se fundó Dräkkar Labs?",
-    answer: "Dräkkar Labs fue fundada en 2026 en Santiago, Chile. Somos una startup joven con ambición global, enfocada en construir productos tecnológicos que hagan la diferencia.\n\n🚀 Primer producto en desarrollo: DevSactum",
+    answer: "Dräkkar Labs fue fundada en 2026 en Santiago, Chile. Somos una startup joven con ambición global, enfocada en construir productos tecnológicos que hagan la diferencia.\n\nPrimer producto en desarrollo: DevSactum",
     keywords: ["fundacion", "cuando", "año", "creacion", "inicio", "nacio"],
   },
 
@@ -90,7 +90,7 @@ const faqDatabase: FAQItem[] = [
     id: "que-es-devsactum",
     category: "devsactum",
     question: "¿Qué es DevSactum?",
-    answer: "DevSactum es nuestra red social diseñada para la comunidad de desarrollo de software. Es un espacio donde:\n\n👥 Conectas con desarrolladores globalmente\n💻 Compartes código con syntax highlighting\n💬 Participas en debates técnicos\n📚 Accedes a tutoriales y recursos\n🎥 Compartes contenido multimedia\n💼 Exploras oportunidades laborales\n🎓 Te conectas con mentores y educadores\n\n🚀 Beta: Septiembre 2026",
+    answer: "DevSactum es nuestra red social diseñada para la comunidad de desarrollo de software. Es un espacio donde:\n\n- Conectas con desarrolladores globalmente\n- Compartes código con syntax highlighting\n- Participas en debates técnicos\n- Accedes a tutoriales y recursos\n- Compartes contenido multimedia\n- Exploras oportunidades laborales\n- Te conectas con mentores y educadores\n\nBeta: Septiembre 2026",
     keywords: ["devsactum", "red social", "plataforma", "app", "producto"],
     followUp: [
       { label: "¿Cuándo sale la beta?", action: "beta-fecha", icon: <Calendar size={14} /> },
@@ -102,7 +102,7 @@ const faqDatabase: FAQItem[] = [
     id: "beta-fecha",
     category: "devsactum",
     question: "¿Cuándo sale la beta de DevSactum?",
-    answer: "📅 La beta de DevSactum está programada para **Septiembre 2026**.\n\nEstamos en plena fase de desarrollo y la beta será accesible para los primeros registros.\n\n¿Quieres ser de los primeros en probarla?",
+    answer: "La beta de DevSactum está programada para Septiembre 2026.\n\nEstamos en plena fase de desarrollo y la beta será accesible para los primeros registros.\n\n¿Quieres ser de los primeros en probarla?",
     keywords: ["beta", "fecha", "lanzamiento", "septiembre", "cuando", "salida"],
     followUp: [
       { label: "Quiero registrarme", action: "registro-beta", icon: <Rocket size={14} /> },
@@ -112,7 +112,7 @@ const faqDatabase: FAQItem[] = [
     id: "registro-beta",
     category: "devsactum",
     question: "¿Cómo me registro para la beta?",
-    answer: "Para acceder a la beta de DevSactum:\n\n1️⃣ Haz scroll hasta la sección de **Contacto**\n2️⃣ Completa el formulario indicando tu interés en DevSactum\n3️⃣ Te contactaremos cuando esté lista la beta\n\nTambién puedes seguirnos en nuestras redes sociales para actualizaciones.",
+    answer: "Para acceder a la beta de DevSactum:\n\n1. Haz scroll hasta la sección de Contacto\n2. Completa el formulario indicando tu interés en DevSactum\n3. Te contactaremos cuando esté lista la beta\n\nTambién puedes seguirnos en nuestras redes sociales para actualizaciones.",
     keywords: ["registro", "inscribirse", "anotarse", "como", "unirme", "acceder"],
     followUp: [
       { label: "Ir a Contacto", action: "ir-contacto", icon: <ArrowUpRight size={14} /> },
@@ -122,21 +122,21 @@ const faqDatabase: FAQItem[] = [
     id: "devsactum-precio",
     category: "devsactum",
     question: "¿DevSactum es gratis?",
-    answer: "Sí, DevSactum será **gratuito para usuarios individuales**.\n\nOfreceremos:\n\n🆓 **Plan Gratis** — Todas las funciones base\n⭐ **Plan Premium** — Funciones avanzadas para profesionales\n🏢 **Plan Enterprise** — Para empresas y equipos\n\nLos detalles exactos se publicarán antes del lanzamiento beta.",
+    answer: "Sí, DevSactum será gratuito para usuarios individuales.\n\nOfreceremos:\n\n- Plan Gratis: Todas las funciones base\n- Plan Premium: Funciones avanzadas para profesionales\n- Plan Enterprise: Para empresas y equipos\n\nLos detalles exactos se publicarán antes del lanzamiento beta.",
     keywords: ["gratis", "precio", "costo", "planes", "premium", "pago", "cuanto cuesta"],
   },
   {
     id: "funciones-devsactum",
     category: "devsactum",
     question: "¿Qué funciones tendrá DevSactum?",
-    answer: "DevSactum incluirá:\n\n💻 **Feed de Código** — Publica snippets con syntax highlighting\n💬 **Debates Técnicos** — Discute arquitecturas y frameworks\n📚 **Tutoriales** — Contenido educativo de la comunidad\n🎥 **Streaming** — Comparte livestreams y demos\n💼 **Job Board** — Oportunidades de empleo tech\n🎓 **Mentoría** — Conecta con mentores experimentados\n🏢 **Perfiles de Empresa** — Startups y empresas tech\n📊 **Analytics** — Métricas de tu actividad\n\nY mucho más por venir.",
+    answer: "DevSactum incluirá:\n\n- Feed de Código: Publica snippets con syntax highlighting\n- Debates Técnicos: Discute arquitecturas y frameworks\n- Tutoriales: Contenido educativo de la comunidad\n- Streaming: Comparte livestreams y demos\n- Job Board: Oportunidades de empleo tech\n- Mentoría: Conecta con mentores experimentados\n- Perfiles de Empresa: Startups y empresas tech\n- Analytics: Métricas de tu actividad\n\nY mucho más por venir.",
     keywords: ["funciones", "features", "que tiene", "que puedo hacer", "opciones"],
   },
   {
     id: "devsactum-audiencia",
     category: "devsactum",
     question: "¿Para quién es DevSactum?",
-    answer: "DevSactum está diseñado para:\n\n👨‍💻 **Desarrolladores de Software** — Frontend, Backend, Fullstack\n🚀 **Startups y Empresas** — Recluta talento tech\n🎓 **Estudiantes de Programación** — Aprende y conecta\n👩‍🏫 **Profesores** — Comparte conocimiento\n✍️ **Creadores de Contenido Tech** — Crea y monetiza\n🤖 **Ingenieros de IA** — Comparte proyectos de ML/AI\n\nSi construyes tecnología, DevSactum es para ti.",
+    answer: "DevSactum está diseñado para:\n\n- Desarrolladores de Software: Frontend, Backend, Fullstack\n- Startups y Empresas: Recluta talento tech\n- Estudiantes de Programación: Aprende y conecta\n- Profesores: Comparte conocimiento\n- Creadores de Contenido Tech: Crea y monetiza\n- Ingenieros de IA: Comparte proyectos de ML/AI\n\nSi construyes tecnología, DevSactum es para ti.",
     keywords: ["audiencia", "para quien", "usuarios", "desarrolladores", "programadores"],
   },
 
@@ -145,21 +145,21 @@ const faqDatabase: FAQItem[] = [
     id: "stack",
     category: "tecnologia",
     question: "¿Qué tecnologías usan?",
-    answer: "Nuestro stack tecnológico incluye:\n\n**Frontend:**\n⚛️ Next.js 16 · React 19 · TypeScript · TailwindCSS\n\n**Backend:**\n🟢 Node.js · NestJS · GraphQL · REST APIs\n\n**Infraestructura:**\n🐳 Docker · Kubernetes · Terraform\n\n**Datos:**\n🗄️ PostgreSQL · Redis · Kafka\n\n**IA/ML:**\n🧠 Python · TensorFlow · PyTorch\n\n**DevOps:**\n⚙️ GitHub Actions · CI/CD · GitOps",
+    answer: "Nuestro stack tecnológico incluye:\n\nFrontend:\n- Next.js 16, React 19, TypeScript, TailwindCSS\n\nBackend:\n- Node.js, NestJS, GraphQL, REST APIs\n\nInfraestructura:\n- Docker, Kubernetes, Terraform\n\nDatos:\n- PostgreSQL, Redis, Kafka\n\nIA/ML:\n- Python, TensorFlow, PyTorch\n\nDevOps:\n- GitHub Actions, CI/CD, GitOps",
     keywords: ["tecnologias", "stack", "lenguajes", "herramientas", "frameworks"],
   },
   {
     id: "arquitectura",
     category: "tecnologia",
     question: "¿Cómo es su arquitectura?",
-    answer: "Nuestra arquitectura se basa en 4 capas:\n\n**1. Presentación** — Next.js, React, TypeScript\n**2. API Gateway** — GraphQL, REST, gRPC\n**3. Servicios** — Motor IA, Core Platform, Analytics\n**4. Infraestructura** — Kubernetes, Terraform, Prometheus\n\nDiseñada para:\n⚡ Rendimiento extremo\n🔄 Auto-escalabilidad\n🛡️ Seguridad en cada capa\n🌍 Despliegue multi-region",
+    answer: "Nuestra arquitectura se basa en 4 capas:\n\n1. Presentación: Next.js, React, TypeScript\n2. API Gateway: GraphQL, REST, gRPC\n3. Servicios: Motor IA, Core Platform, Analytics\n4. Infraestructura: Kubernetes, Terraform, Prometheus\n\nDiseñada para:\n- Rendimiento extremo\n- Auto-escalabilidad\n- Seguridad en cada capa\n- Despliegue multi-region",
     keywords: ["arquitectura", "sistema", "estructura", "capas"],
   },
   {
     id: "open-source",
     category: "tecnologia",
     question: "¿Tienen proyectos open source?",
-    answer: "Sí, estamos comprometidos con el código abierto.\n\nPróximamente publicaremos:\n🔧 Componentes reutilizables\n📚 Herramientas de desarrollo\n📖 Documentación y guías\n\nSíguenos en GitHub para estar al tanto:\ngithub.com/gpb-industries/DRAKKAR",
+    answer: "Sí, estamos comprometidos con el código abierto.\n\nPróximamente publicaremos:\n- Componentes reutilizables\n- Herramientas de desarrollo\n- Documentación y guías\n\nSíguenos en GitHub para estar al tanto:\ngithub.com/gpb-industries/DRAKKAR",
     keywords: ["open source", "codigo abierto", "github", "repositorio"],
   },
 
@@ -168,7 +168,7 @@ const faqDatabase: FAQItem[] = [
     id: "trabajar",
     category: "carreras",
     question: "¿Puedo trabajar con ustedes?",
-    answer: "¡Sí! Estamos buscando talento para nuestro equipo.\n\nPosiciones abiertas:\n\n🟡 **Ingeniero Frontend Senior** — Equipo DevSactum\n🟡 **Ingeniero Backend Senior** — Equipo DevSactum\n🟡 **Diseñador UI/UX** — Equipo DevSactum\n🟡 **Ingeniero de IA** — Investigación\n🟡 **Ingeniero de Plataforma** — Infraestructura\n🟡 **DevRel / Developer Advocate** — DevSactum\n\n📍 Todas las posiciones son **100% remotas**",
+    answer: "¡Sí! Estamos buscando personas con ganas de aprender para nuestro equipo.\n\nPosiciones abiertas (todas trainee):\n\n- Trainee Frontend Developer - Equipo DevSactum\n- Trainee Backend Developer - Equipo DevSactum\n- Trainee UI/UX Designer - Equipo DevSactum\n- Trainee AI Engineer - Investigación\n- Trainee DevOps / Platform - Infraestructura\n- Trainee Developer Advocate - DevSactum\n\nTodas las posiciones son 100% remotas. No necesitas experiencia previa, solo ganas de aprender y crecer.",
     keywords: ["trabajo", "empleo", "carrera", "equipo", "contratar", "remoto", "vacantes"],
     followUp: [
       { label: "Ver posiciones", action: "ver-carreras", icon: <Users size={14} /> },
@@ -178,14 +178,14 @@ const faqDatabase: FAQItem[] = [
     id: "cultura",
     category: "carreras",
     question: "¿Cómo es la cultura de trabajo?",
-    answer: "En Dräkkar Labs valoramos:\n\n🌍 **Remoto-Primero** — Trabaja desde cualquier parte\n🚀 **Alto Rendimiento** — Estándares de excelencia\n💡 **Innovación** — 20% del tiempo para I+D\n👥 **Equipos de Élite** — Autónomos y expertos\n📚 **Aprendizaje Continuo** — Crecimiento constante\n⚖️ **Work-Life Balance** — Equilibrio vida-trabajo\n\nCreemos en el talento, no en la oficina.",
+    answer: "En Dräkkar Labs valoramos:\n\n- Remoto-Primero: Trabaja desde cualquier parte\n- Alto Rendimiento: Estándares de excelencia\n- Innovación: 20% del tiempo para I+D\n- Equipos de Élite: Autónomos y expertos\n- Aprendizaje Continuo: Crecimiento constante\n- Work-Life Balance: Equilibrio vida-trabajo\n\nCreemos en el talento, no en la oficina.",
     keywords: ["cultura", "ambiente", "work life balance", "remoto", "equipo"],
   },
   {
     id: "beneficios",
     category: "carreras",
     question: "¿Qué beneficios ofrecen?",
-    answer: "Beneficios de trabajar en Dräkkar Labs:\n\n💰 **Competitivo** — Salarios al nivel del mercado global\n🏠 **100% Remoto** — Sin commuting\n📚 **Aprendizaje** — Presupuesto para cursos y conferencias\n🖥️ **Equipamiento** — Setup de home office\n🏥 **Salud** — Seguro médico\n🌴 **Vacaciones** — Politica flexible\n📈 **Equity** — Participación en la empresa para roles clave\n\nY un equipo increíble con el que construir el futuro.",
+    answer: "Beneficios de trabajar en Dräkkar Labs:\n\n- Salarios competitivos al nivel del mercado global\n- 100% Remoto: Sin commuting\n- Aprendizaje: Presupuesto para cursos y conferencias\n- Equipamiento: Setup de home office\n- Salud: Seguro médico\n- Vacaciones: Política flexible\n- Equity: Participación en la empresa para roles clave\n\nY un equipo increíble con el que construir el futuro.",
     keywords: ["beneficios", "salario", "vacaciones", "seguro", "perks"],
   },
 
@@ -194,14 +194,14 @@ const faqDatabase: FAQItem[] = [
     id: "ubicacion",
     category: "contacto",
     question: "¿Dónde están ubicados?",
-    answer: "📍 **Sede Central**\nLa Pintana, Santiago, Chile\n\nSomos un equipo 100% remoto, por lo que no contamos con oficinas físicas abiertas al público.\n\nPuedes contactarnos a través de:\n📝 Formulario de contacto en esta página\n🌐 Nuestras redes sociales (próximamente)",
+    answer: "Sede Central:\nLa Pintana, Santiago, Chile\n\nSomos un equipo 100% remoto, por lo que no contamos con oficinas físicas abiertas al público.\n\nPuedes contactarnos a través de:\n- Formulario de contacto en esta página\n- Nuestras redes sociales (próximamente)",
     keywords: ["ubicacion", "oficina", "sede", "chile", "santiago", "donde"],
   },
   {
     id: "contactar",
     category: "contacto",
     question: "¿Cómo puedo contactarlos?",
-    answer: "Puedes contactarnos de varias formas:\n\n📝 **Formulario** — Usa el formulario en la sección de Contacto\n🌐 **GitHub** — github.com/gpb-industries/DRAKKAR\n💼 **LinkedIn** — Próximamente\n🐦 **Twitter/X** — Próximamente\n\nResponderemos lo antes posible.",
+    answer: "Puedes contactarnos de varias formas:\n\n- Formulario: Usa el formulario en la sección de Contacto\n- GitHub: github.com/gpb-industries/DRAKKAR\n- LinkedIn: Próximamente\n- Twitter/X: Próximamente\n\nResponderemos lo antes posible.",
     keywords: ["contactar", "contacto", "comunicarse", "hablar", "escribir"],
     followUp: [
       { label: "Ir a Contacto", action: "ir-contacto", icon: <ArrowUpRight size={14} /> },
@@ -249,7 +249,7 @@ function getBotResponse(input: string): { text: string; options?: QuickOption[] 
   // Greetings
   if (/^(hola|buenas|hey|saludos|que tal|buenos|buenas dias|buenas tardes|buenas noches)/i.test(lower)) {
     return {
-      text: "¡Hola! 👋 Bienvenido a Dräkkar Labs. Soy tu asistente virtual.\n\n¿En qué puedo ayudarte hoy?",
+      text: "Hola, bienvenido a Dräkkar Labs. Soy tu asistente virtual.\n\n¿En qué puedo ayudarte hoy?",
       options: [
         { label: "¿Qué es Dräkkar Labs?", action: "que-es-drakkar", icon: <Building2 size={14} /> },
         { label: "DevSactum", action: "que-es-devsactum", icon: <Rocket size={14} /> },
@@ -261,7 +261,7 @@ function getBotResponse(input: string): { text: string; options?: QuickOption[] 
   // Thanks
   if (/^(gracias|thanks|thx|agradezco)/i.test(lower)) {
     return {
-      text: "¡De nada! 😊 Estoy aquí si tienes más preguntas.\n\n¿Hay algo más en lo que pueda ayudarte?",
+      text: "De nada, estoy aquí si tienes más preguntas.\n\n¿Hay algo más en lo que pueda ayudarte?",
       options: [
         { label: "Volver al inicio", action: "inicio", icon: <RotateCcw size={14} /> },
       ],
@@ -287,18 +287,18 @@ function getBotResponse(input: string): { text: string; options?: QuickOption[] 
   if (match) {
     if (match.answer === "scroll-contacto") {
       document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-      return { text: "Te redirijo a la sección de Contacto 👇" };
+      return { text: "Te redirijo a la sección de Contacto." };
     }
     if (match.answer === "scroll-careers") {
       document.getElementById("careers")?.scrollIntoView({ behavior: "smooth" });
-      return { text: "Te redirijo a la sección de Carreras 👇" };
+      return { text: "Te redirijo a la sección de Carreras." };
     }
     return { text: match.answer, options: match.followUp };
   }
 
   // Default
   return {
-    text: "No tengo una respuesta exacta para eso, pero puedo ayudarte con:\n\n🏢 Sobre Dräkkar Labs\n🚀 DevSactum\n💻 Tecnología\n💼 Carreras\n📍 Contacto\n\n¿Qué te gustaría saber?",
+    text: "No tengo una respuesta exacta para eso, pero puedo ayudarte con:\n\n- Sobre Dräkkar Labs\n- DevSactum\n- Tecnología\n- Carreras\n- Contacto\n\n¿Qué te gustaría saber?",
     options: [
       { label: "General", action: "que-es-drakkar", icon: <Building2 size={14} /> },
       { label: "DevSactum", action: "que-es-devsactum", icon: <Rocket size={14} /> },
@@ -361,7 +361,7 @@ export default function Chatbot() {
         setMessages([
           {
             id: "welcome",
-            text: "¡Bienvenido a **Dräkkar Labs**! 👋\n\nSoy tu asistente virtual. Puedo ayudarte con información sobre nuestra empresa, DevSactum, tecnología, carreras y más.\n\n¿Qué te gustaría saber?",
+            text: "Bienvenido a **Dräkkar Labs**.\n\nSoy tu asistente virtual. Puedo ayudarte con información sobre nuestra empresa, DevSactum, tecnología, carreras y más.\n\n¿Qué te gustaría saber?",
             sender: "bot",
             timestamp: new Date(),
             options: [
@@ -460,7 +460,7 @@ export default function Chatbot() {
       setMessages([
         {
           id: "welcome-reset",
-          text: "¡Hola de nuevo! 👋 ¿En qué puedo ayudarte?",
+          text: "Hola de nuevo. ¿En qué puedo ayudarte?",
           sender: "bot",
           timestamp: new Date(),
           options: [

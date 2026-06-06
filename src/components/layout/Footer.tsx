@@ -6,7 +6,7 @@ import {
   MessageCircle,
   ArrowUpRight,
 } from "lucide-react";
-import Image from "next/image";
+
 
 function MapPin({ size, className }: { size: number; className?: string }) {
   return (
@@ -49,13 +49,8 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-12 mb-16">
           <div className="col-span-2 md:col-span-3 lg:col-span-2">
             <a href="#" className="flex items-center gap-3 mb-6">
-              <div className="relative w-10 h-10 rounded-xl overflow-hidden ring-1 ring-white/10">
-                <Image
-                  src="/drakkar-logo.png"
-                  alt="Dräkkar Labs"
-                  fill
-                  className="object-cover"
-                />
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gold to-[#FFA500] flex items-center justify-center text-[#050816] font-bold text-lg ring-1 ring-white/10">
+                D
               </div>
               <span className="text-lg font-semibold tracking-tight">
                 Dräkkar<span className="text-gold">Labs</span>

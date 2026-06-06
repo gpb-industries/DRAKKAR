@@ -3,8 +3,6 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Target, Eye, Compass, Shield, Zap, Globe } from "lucide-react";
-import Image from "next/image";
-
 const values = [
   {
     icon: Target,
@@ -109,13 +107,8 @@ export default function About() {
           transition={{ duration: 0.8 }}
           className="flex justify-center mb-20"
         >
-          <div className="relative w-32 h-32 rounded-3xl overflow-hidden ring-2 ring-gold/10 shadow-[0_0_80px_rgba(255,215,0,0.1)]">
-            <Image
-              src="/drakkar-logo.png"
-              alt="Dräkkar Labs"
-              fill
-              className="object-cover"
-            />
+          <div className="w-32 h-32 rounded-3xl bg-gradient-to-br from-gold to-[#FFA500] flex items-center justify-center text-[#050816] font-bold text-5xl ring-2 ring-gold/10 shadow-[0_0_80px_rgba(255,215,0,0.1)]">
+            D
           </div>
         </motion.div>
 
