@@ -15,7 +15,7 @@ const posts = [
   },
   {
     title: "DevSactum: Rediseñando la Red Social para Desarrolladores",
-    excerpt: "Por qué creamos DevSactum y cómo planeamos resolver los problemas que las plataformas actuales no Address.",
+    excerpt: "Por qué creamos DevSactum y cómo planeamos resolver los problemas que las plataformas actuales no resuelven.",
     date: "2026",
     readTime: "8 min",
     category: "Producto",
@@ -92,7 +92,7 @@ export default function Blog() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="group relative p-8 rounded-2xl glass-light hover:border-white/10 transition-all duration-500 cursor-pointer overflow-hidden"
+              className="group relative p-8 rounded-2xl glass-light hover:border-white/10 transition-all duration-500 overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-b from-white/[0.01] to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
               <div className="relative">
@@ -122,7 +122,7 @@ export default function Blog() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="group flex items-start gap-4 p-6 rounded-xl glass-light hover:border-white/10 transition-all duration-300 cursor-pointer"
+              className="group flex items-start gap-4 p-6 rounded-xl glass-light hover:border-white/10 transition-all duration-300"
             >
               <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-electric-blue/10 to-deep-purple/10 flex items-center justify-center shrink-0">
                 <Tag size={16} className="text-electric-blue" />

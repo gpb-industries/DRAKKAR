@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { Send, MapPin, ArrowUpRight, MessageCircle } from "lucide-react";
+import { Send, MapPin, ArrowUpRight, MessageCircle, CheckCircle } from "lucide-react";
 
 export default function Contact() {
   const ref = useRef(null);
@@ -14,6 +14,8 @@ export default function Contact() {
     subject: "",
     message: "",
   });
+  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -23,6 +25,11 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setSubmitted(true);
+      setIsSubmitting(false);
+    }, 1000);
   };
 
   return (
@@ -128,6 +135,30 @@ export default function Contact() {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="lg:col-span-3"
           >
+            {submitted ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="p-12 rounded-2xl glass text-center"
+              >
+                <div className="w-16 h-16 rounded-full bg-gold/10 flex items-center justify-center mx-auto mb-6">
+                  <CheckCircle size={32} className="text-gold" />
+                </div>
+                <h3 className="text-2xl font-bold mb-3">Mensaje Enviado</h3>
+                <p className="text-muted/50 text-sm max-w-md mx-auto mb-6">
+                  Gracias por contactarnos. Te responderemos lo antes posible.
+                </p>
+                <button
+                  onClick={() => {
+                    setSubmitted(false);
+                    setFormState({ name: "", company: "", email: "", subject: "", message: "" });
+                  }}
+                  className="px-6 py-2.5 rounded-lg text-sm font-medium text-gold border border-gold/20 hover:bg-gold/10 transition-all"
+                >
+                  Enviar otro mensaje
+                </button>
+              </motion.div>
+            ) : (
             <form onSubmit={handleSubmit} className="p-8 rounded-2xl glass space-y-6">
               <div className="grid sm:grid-cols-2 gap-6">
                 <div>
@@ -181,7 +212,7 @@ export default function Contact() {
                   value={formState.subject}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/5 text-sm text-white focus:outline-none focus:border-gold/30 focus:ring-1 focus:ring-gold/20 transition-all appearance-none"
+                  className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/5 text-sm text-white focus:outline-none focus:border-gold/30 focus:ring-1 focus:ring-gold/20 transition-all appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23E2E8F0%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-[length:20px] bg-[right_12px_center] bg-no-repeat"
                 >
                   <option value="" className="bg-[#0A1020]">
                     Selecciona un tema
@@ -219,12 +250,14 @@ export default function Contact() {
               </div>
               <button
                 type="submit"
-                className="w-full py-4 rounded-xl bg-gradient-to-r from-gold to-[#FFA500] text-[#050816] font-semibold text-sm flex items-center justify-center gap-2 hover:shadow-[0_0_40px_rgba(255,215,0,0.2)] transition-all duration-300"
+                disabled={isSubmitting}
+                className="w-full py-4 rounded-xl bg-gradient-to-r from-gold to-[#FFA500] text-[#050816] font-semibold text-sm flex items-center justify-center gap-2 hover:shadow-[0_0_40px_rgba(255,215,0,0.2)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Enviar Mensaje
+                {isSubmitting ? "Enviando..." : "Enviar Mensaje"}
                 <Send size={16} />
               </button>
             </form>
+            )}
           </motion.div>
         </div>
       </div>

@@ -8,6 +8,25 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 
+function MapPin({ size, className }: { size: number; className?: string }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+      <circle cx="12" cy="10" r="3" />
+    </svg>
+  );
+}
+
 const footerLinks = {
   Empresa: ["Nosotros", "Carreras", "Blog"],
   Producto: ["DevSactum", "Dräkkar Core", "Dräkkar AI"],
@@ -50,12 +69,13 @@ export default function Footer() {
               <MapPin size={12} className="text-electric-blue" />
               La Pintana, Santiago, Chile
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4" role="list" aria-label="Redes sociales">
               {socialLinks.map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
+                  role="listitem"
                   className="w-10 h-10 rounded-lg glass-light flex items-center justify-center text-muted/60 hover:text-gold hover:border-gold/20 transition-all duration-300"
                 >
                   <social.icon size={18} />
@@ -65,7 +85,7 @@ export default function Footer() {
           </div>
 
           {Object.entries(footerLinks).map(([category, links]) => (
-            <div key={category}>
+            <nav key={category} aria-label={category}>
               <h4 className="text-sm font-semibold text-white mb-4 tracking-wide">
                 {category}
               </h4>
@@ -85,7 +105,7 @@ export default function Footer() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </nav>
           ))}
         </div>
 
@@ -101,24 +121,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  );
-}
-
-function MapPin({ size, className }: { size: number; className?: string }) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-    >
-      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-      <circle cx="12" cy="10" r="3" />
-    </svg>
   );
 }

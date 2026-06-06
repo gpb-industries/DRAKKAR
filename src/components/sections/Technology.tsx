@@ -135,10 +135,10 @@ export default function Technology() {
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
               {[
-                { layer: "Presentación", items: ["Next.js", "React", "TypeScript"], color: "gold" },
-                { layer: "API Gateway", items: ["GraphQL", "REST", "gRPC"], color: "electric-blue" },
-                { layer: "Servicios", items: ["Motor IA", "Plataforma Core", "Analítica"], color: "deep-purple" },
-                { layer: "Infraestructura", items: ["Kubernetes", "Terraform", "Prometheus"], color: "crimson" },
+                { layer: "Presentación", items: ["Next.js", "React", "TypeScript"], colorClass: "text-gold" },
+                { layer: "API Gateway", items: ["GraphQL", "REST", "gRPC"], colorClass: "text-electric-blue" },
+                { layer: "Servicios", items: ["Motor IA", "Plataforma Core", "Analítica"], colorClass: "text-deep-purple" },
+                { layer: "Infraestructura", items: ["Kubernetes", "Terraform", "Prometheus"], colorClass: "text-crimson" },
               ].map((layer, i) => (
                 <motion.div
                   key={layer.layer}
@@ -149,7 +149,7 @@ export default function Technology() {
                   className="p-5 rounded-xl glass-light"
                 >
                   <div
-                    className={`text-[10px] font-mono uppercase tracking-widest text-${layer.color} mb-3`}
+                    className={`text-[10px] font-mono uppercase tracking-widest ${layer.colorClass} mb-3`}
                   >
                     {layer.layer}
                   </div>

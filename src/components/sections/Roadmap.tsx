@@ -130,7 +130,7 @@ export default function Roadmap() {
 
                   {/* Content */}
                   <div className={`flex-1 ml-14 md:ml-0 ${i % 2 === 0 ? "md:text-right md:pr-12" : "md:text-left md:pl-12"}`}>
-                    <div className={`inline-block p-6 rounded-2xl border ${styles.border} ${styles.bg} backdrop-blur-sm text-left`}>
+                    <div className={`inline-block p-6 rounded-2xl border ${styles.border} ${styles.bg} backdrop-blur-sm text-left w-full`}>
                       <div className="flex items-center gap-3 mb-4">
                         <span className="text-xs font-mono text-gold">{phase.quarter}</span>
                         <span className={`px-2 py-0.5 text-[10px] uppercase tracking-wider rounded-full ${

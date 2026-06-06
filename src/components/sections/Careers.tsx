@@ -149,7 +149,7 @@ export default function Careers() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-30px" }}
                 transition={{ duration: 0.5, delay: i * 0.05 }}
-                className="group flex flex-col md:flex-row md:items-center justify-between p-6 rounded-xl glass-light hover:border-white/10 transition-all duration-300 cursor-pointer"
+                className="group flex flex-col md:flex-row md:items-center justify-between p-6 rounded-xl glass-light hover:border-white/10 transition-all duration-300"
               >
                 <div className="flex-1 mb-4 md:mb-0">
                   <div className="flex items-center gap-3 mb-2">
@@ -169,7 +169,7 @@ export default function Careers() {
                     </span>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 text-sm font-medium text-gold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="flex items-center gap-2 text-sm font-medium text-gold md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
                   Aplicar <ArrowUpRight size={14} />
                 </div>
               </motion.div>

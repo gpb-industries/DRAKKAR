@@ -50,14 +50,26 @@ export default function Newsletter() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="flex items-center justify-center gap-3 py-4"
+                className="flex flex-col items-center justify-center gap-3 py-4"
               >
-                <CheckCircle size={24} className="text-gold" />
-                <span className="text-lg font-medium">¡Gracias por suscribirte!</span>
+                <div className="flex items-center gap-3">
+                  <CheckCircle size={24} className="text-gold" />
+                  <span className="text-lg font-medium">¡Gracias por suscribirte!</span>
+                </div>
+                <button
+                  onClick={() => setSubmitted(false)}
+                  className="text-xs text-muted/40 hover:text-gold transition-colors underline"
+                >
+                  Suscribir otro correo
+                </button>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-center gap-3 max-w-md mx-auto">
+                <label htmlFor="newsletter-email" className="sr-only">
+                  Correo electrónico
+                </label>
                 <input
+                  id="newsletter-email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}

@@ -27,7 +27,7 @@ export default function Testimonials() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section className="relative py-32 overflow-hidden">
+    <section id="testimonials" className="relative py-32 overflow-hidden">
       <div className="absolute inset-0 radial-glow opacity-15 pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-6" ref={ref}>
@@ -62,9 +62,11 @@ export default function Testimonials() {
               className="group p-8 rounded-2xl glass-light hover:border-white/10 transition-all duration-500 relative"
             >
               <Quote size={32} className="text-gold/10 absolute top-6 right-6" />
-              <p className="text-sm text-muted/60 leading-relaxed mb-6 italic">
-                &ldquo;{t.text}&rdquo;
-              </p>
+              <blockquote>
+                <p className="text-sm text-muted/60 leading-relaxed mb-6 italic">
+                  &ldquo;{t.text}&rdquo;
+                </p>
+              </blockquote>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold/20 to-electric-blue/20 flex items-center justify-center">
                   <span className="text-xs font-bold text-gold">{t.author[0]}</span>

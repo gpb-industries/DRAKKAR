@@ -38,16 +38,17 @@ export default function Partners() {
           </span>
         </motion.div>
 
-        <div className="relative overflow-hidden">
+        <div className="relative overflow-hidden group/carousel" aria-label="Tecnologías que utilizamos">
           {/* Gradient masks */}
           <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#050816] to-transparent z-10 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#050816] to-transparent z-10 pointer-events-none" />
 
-          {/* Scrolling logos */}
+          {/* Scrolling logos — pauses on hover */}
           <motion.div
             animate={{ x: ["0%", "-50%"] }}
             transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-            className="flex gap-12 items-center"
+            className="flex gap-12 items-center group-hover/carousel:[animation-play-state:paused]"
+            aria-hidden="true"
           >
             {[...partners, ...partners].map((name, i) => (
               <div

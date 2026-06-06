@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -19,12 +19,26 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Escape key handler for mobile menu
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMobileOpen(false);
+        hamburgerRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [mobileOpen]);
 
   return (
     <>
@@ -53,7 +67,7 @@ export default function Navbar() {
             </span>
           </a>
 
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-1" aria-label="Navegación principal">
             {navLinks.map((link) => (
               <a
                 key={link.href}
@@ -76,9 +90,12 @@ export default function Navbar() {
           </div>
 
           <button
+            ref={hamburgerRef}
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2 text-muted hover:text-white transition-colors"
-            aria-label="Abrir menú"
+            className="lg:hidden p-3 text-muted hover:text-white transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+            aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-menu"
           >
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
@@ -88,11 +105,15 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
+            id="mobile-menu"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
             className="fixed inset-0 z-40 glass flex flex-col items-center justify-center gap-6 lg:hidden"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menú de navegación"
           >
             {navLinks.map((link, i) => (
               <motion.a
@@ -101,7 +122,10 @@ export default function Navbar() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
-                onClick={() => setMobileOpen(false)}
+                onClick={() => {
+                  setMobileOpen(false);
+                  hamburgerRef.current?.focus();
+                }}
                 className="text-2xl font-medium text-muted hover:text-gold transition-colors"
               >
                 {link.label}

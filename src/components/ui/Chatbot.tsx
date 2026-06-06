@@ -8,7 +8,6 @@ import {
   Send,
   Bot,
   User,
-  Sparkles,
   HelpCircle,
   Building2,
   Rocket,
@@ -26,7 +25,6 @@ interface Message {
   sender: "bot" | "user";
   timestamp: Date;
   options?: QuickOption[];
-  isHTML?: boolean;
 }
 
 interface QuickOption {
@@ -311,7 +309,7 @@ function getBotResponse(input: string): { text: string; options?: QuickOption[] 
 
 function TypingIndicator() {
   return (
-    <div className="flex items-center gap-1.5 px-4 py-3">
+    <div className="flex items-center gap-1.5 px-4 py-3" role="status" aria-live="polite">
       <div className="flex gap-1">
         {[0, 1, 2].map((i) => (
           <motion.div
@@ -340,6 +338,8 @@ export default function Chatbot() {
   const [showCategories, setShowCategories] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const chatWindowRef = useRef<HTMLDivElement>(null);
+  const toggleButtonRef = useRef<HTMLButtonElement>(null);
   const msgIdCounter = useRef(0);
 
   const nextMsgId = () => {
@@ -380,6 +380,19 @@ export default function Chatbot() {
     if (isOpen) {
       setTimeout(() => inputRef.current?.focus(), 300);
     }
+  }, [isOpen]);
+
+  // Escape key handler
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsOpen(false);
+        toggleButtonRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
   }, [isOpen]);
 
   const handleOptionClick = (action: string) => {
@@ -469,12 +482,14 @@ export default function Chatbot() {
     <>
       {/* Toggle button */}
       <motion.button
+        ref={toggleButtonRef}
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 3, duration: 0.5, type: "spring" }}
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-8 left-8 z-50 group"
+        className="fixed bottom-6 left-6 sm:bottom-8 sm:left-8 z-50 group"
         aria-label={isOpen ? "Cerrar chat" : "Abrir chat"}
+        aria-expanded={isOpen}
       >
         <div className="relative">
           {/* Pulse ring */}
@@ -489,15 +504,15 @@ export default function Chatbot() {
             )}
           </AnimatePresence>
 
-          <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-gold to-[#FFA500] text-[#050816] flex items-center justify-center shadow-[0_0_30px_rgba(255,215,0,0.3)] group-hover:shadow-[0_0_50px_rgba(255,215,0,0.5)] transition-all duration-300">
+          <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-gold to-[#FFA500] text-[#050816] flex items-center justify-center shadow-[0_0_30px_rgba(255,215,0,0.3)] group-hover:shadow-[0_0_50px_rgba(255,215,0,0.5)] transition-all duration-300">
             <AnimatePresence mode="wait">
               {isOpen ? (
                 <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.2 }}>
-                  <X size={22} />
+                  <X size={20} className="sm:w-[22px] sm:h-[22px]" />
                 </motion.div>
               ) : (
                 <motion.div key="open" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.2 }}>
-                  <MessageCircle size={22} />
+                  <MessageCircle size={20} className="sm:w-[22px] sm:h-[22px]" />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -509,15 +524,19 @@ export default function Chatbot() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            ref={chatWindowRef}
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed bottom-24 left-8 z-50 w-[400px] max-w-[calc(100vw-4rem)] rounded-2xl overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.6)] border border-white/10"
+            className="fixed bottom-20 left-4 right-4 sm:bottom-24 sm:left-8 sm:right-auto z-50 w-auto sm:w-[400px] sm:max-w-[calc(100vw-4rem)] max-h-[60vh] rounded-2xl overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.6)] border border-white/10 flex flex-col"
             style={{ background: "linear-gradient(180deg, #0A1020 0%, #050816 100%)" }}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Chat con asistente"
           >
             {/* Header */}
-            <div className="relative p-4 border-b border-white/5">
+            <div className="relative p-4 border-b border-white/5 shrink-0">
               <div className="absolute inset-0 bg-gradient-to-r from-gold/5 via-electric-blue/5 to-deep-purple/5" />
               <div className="relative flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -525,13 +544,13 @@ export default function Chatbot() {
                     <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gold/20 to-electric-blue/20 flex items-center justify-center">
                       <Bot size={20} className="text-gold" />
                     </div>
-                    <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-green-500 border-2 border-[#0A1020]" />
+                    <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-gold border-2 border-[#0A1020]" />
                   </div>
                   <div>
                     <h4 className="font-semibold text-sm">Dräkkar Assistant</h4>
                     <div className="flex items-center gap-1.5">
-                      <Sparkles size={10} className="text-gold" />
-                      <span className="text-[10px] text-muted/40">En línea · IA Avanzada</span>
+                      <HelpCircle size={10} className="text-gold" />
+                      <span className="text-[10px] text-muted/40">En línea · Asistente Virtual</span>
                     </div>
                   </div>
                 </div>
@@ -544,7 +563,10 @@ export default function Chatbot() {
                     <RotateCcw size={14} />
                   </button>
                   <button
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => {
+                      setIsOpen(false);
+                      toggleButtonRef.current?.focus();
+                    }}
                     className="p-2 rounded-lg hover:bg-white/5 text-muted/40 hover:text-white transition-all"
                     aria-label="Cerrar chat"
                   >
@@ -561,7 +583,7 @@ export default function Chatbot() {
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  className="border-b border-white/5 overflow-hidden"
+                  className="border-b border-white/5 overflow-hidden shrink-0"
                 >
                   <div className="p-3 flex gap-1.5 overflow-x-auto scrollbar-hide">
                     {categories.map((cat) => (
@@ -586,7 +608,12 @@ export default function Chatbot() {
             </AnimatePresence>
 
             {/* Messages */}
-            <div className="h-80 overflow-y-auto p-4 space-y-4 scrollbar-thin">
+            <div
+              className="flex-1 min-h-0 overflow-y-auto p-4 space-y-4 scrollbar-thin"
+              role="log"
+              aria-live="polite"
+              aria-label="Mensajes del chat"
+            >
               <AnimatePresence>
                 {messages.map((msg) => (
                   <motion.div
@@ -664,7 +691,7 @@ export default function Chatbot() {
             </div>
 
             {/* Input */}
-            <div className="p-3 border-t border-white/5 bg-[#050816]/50">
+            <div className="p-3 border-t border-white/5 bg-[#050816]/50 shrink-0">
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -672,13 +699,18 @@ export default function Chatbot() {
                 }}
                 className="flex items-center gap-2"
               >
+                <label htmlFor="chatbot-input" className="sr-only">
+                  Escribe tu pregunta
+                </label>
                 <input
                   ref={inputRef}
+                  id="chatbot-input"
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Escribe tu pregunta..."
                   disabled={isTyping}
+                  maxLength={500}
                   className="flex-1 px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/5 text-sm text-white placeholder:text-muted/20 focus:outline-none focus:border-gold/30 focus:ring-1 focus:ring-gold/10 transition-all disabled:opacity-50"
                 />
                 <button

@@ -16,6 +16,19 @@ interface Particle {
 
 const PARTICLE_COLORS = ["#FFD700", "#00AEEF", "#6A00FF"];
 
+function getParticleCount(): number {
+  if (typeof window === "undefined") return 40;
+  const width = window.innerWidth;
+  if (width < 640) return 20;
+  if (width < 1024) return 35;
+  return 50;
+}
+
+function prefersReducedMotion(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 export default function Particles() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particles = useRef<Particle[]>([]);
@@ -23,9 +36,9 @@ export default function Particles() {
   const mouse = useRef({ x: 0, y: 0 });
 
   const createParticle = useCallback(
-    (x?: number, y?: number): Particle => ({
-      x: x ?? Math.random() * (canvasRef.current?.width ?? 0),
-      y: y ?? Math.random() * (canvasRef.current?.height ?? 0),
+    (width: number, height: number): Particle => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
       vx: (Math.random() - 0.5) * 0.3,
       vy: (Math.random() - 0.5) * 0.3,
       size: Math.random() * 2 + 0.5,
@@ -44,16 +57,28 @@ export default function Particles() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    if (prefersReducedMotion()) return;
+
+    const dpr = window.devicePixelRatio || 1;
+
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.scale(dpr, dpr);
     };
     resize();
     window.addEventListener("resize", resize);
 
     // Initialize particles
-    for (let i = 0; i < 60; i++) {
-      particles.current.push(createParticle());
+    const count = getParticleCount();
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    for (let i = 0; i < count; i++) {
+      particles.current.push(createParticle(width, height));
     }
 
     const onMouse = (e: MouseEvent) => {
@@ -62,7 +87,9 @@ export default function Particles() {
     window.addEventListener("mousemove", onMouse, { passive: true });
 
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      ctx.clearRect(0, 0, w, h);
 
       particles.current.forEach((p, i) => {
         p.life++;
@@ -107,11 +134,11 @@ export default function Particles() {
         if (
           p.life >= p.maxLife ||
           p.x < -50 ||
-          p.x > canvas.width + 50 ||
+          p.x > w + 50 ||
           p.y < -50 ||
-          p.y > canvas.height + 50
+          p.y > h + 50
         ) {
-          particles.current[i] = createParticle();
+          particles.current[i] = createParticle(w, h);
         }
       });
 
@@ -151,8 +178,8 @@ export default function Particles() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 pointer-events-none"
-      style={{ opacity: 0.6 }}
+      className="absolute inset-0 pointer-events-none opacity-60"
+      aria-hidden="true"
     />
   );
 }

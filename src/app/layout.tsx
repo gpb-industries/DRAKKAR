@@ -43,6 +43,9 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  other: {
+    "theme-color": "#050816",
+  },
 };
 
 export default function RootLayout({
@@ -52,7 +55,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="min-h-screen bg-[#050816] text-white antialiased">
+      <body className="min-h-screen bg-background text-foreground antialiased">
+        <a href="#main-content" className="skip-link">
+          Saltar al contenido principal
+        </a>
+        <noscript>
+          <div className="min-h-screen bg-background flex items-center justify-center px-6">
+            <div className="text-center">
+              <h1 className="text-4xl font-bold mb-4">Dräkkar Labs</h1>
+              <p className="text-muted/60 mb-6">
+                Esta sitio requiere JavaScript para funcionar correctamente.
+              </p>
+              <a href="https://github.com/gpb-industries/DRAKKAR" className="text-gold underline">
+                Visita nuestro GitHub
+              </a>
+            </div>
+          </div>
+        </noscript>
         {children}
       </body>
     </html>
