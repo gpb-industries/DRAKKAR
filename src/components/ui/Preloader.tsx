@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
+
 export default function Preloader() {
   const [loading, setLoading] = useState(true);
 
@@ -26,9 +28,14 @@ export default function Preloader() {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="mb-8"
           >
-            <div className="w-[120px] h-[120px] rounded-2xl bg-gradient-to-br from-gold to-[#FFA500] flex items-center justify-center text-[#050816] font-bold text-5xl">
-              D
-            </div>
+            <Image
+              src="/drakkar-logo.png"
+              alt="Dräkkar Labs"
+              width={120}
+              height={120}
+              className="rounded-2xl"
+              priority
+            />
           </motion.div>
 
           {/* Brand name */}
