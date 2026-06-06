@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, ChevronDown } from "lucide-react";
-import Image from "next/image";
 import Particles from "@/components/ui/Particles";
 
 function FloatingOrb({
@@ -57,26 +56,8 @@ export default function Hero() {
 
       <Particles />
 
-      {/* Content */}
-      <motion.div style={{ y, opacity }} className="relative z-10 max-w-5xl mx-auto px-6 text-center">
-        {/* Logo */}
-        <motion.div
-          initial={{ scale: 0.7, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-10"
-        >
-          <div className="relative w-28 h-28 mx-auto rounded-2xl overflow-hidden ring-2 ring-gold/20 shadow-[0_0_60px_rgba(255,215,0,0.15)]">
-            <Image
-              src="/drakkar-logo.png"
-              alt="Dräkkar Labs"
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-        </motion.div>
-
+        {/* Content */}
+        <motion.div style={{ y, opacity }} className="relative z-10 max-w-5xl mx-auto px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
