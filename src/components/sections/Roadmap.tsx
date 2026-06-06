@@ -23,7 +23,7 @@ const roadmapData = [
     items: [
       { text: "Desarrollo de DevSactum", done: false, current: true },
       { text: "Blog y content platform", done: true },
-      { text: "Sistema de waitlist", done: false },
+      { text: "Sistema de waitlist", done: true },
       { text: "Documentación de API", done: false },
     ],
   },

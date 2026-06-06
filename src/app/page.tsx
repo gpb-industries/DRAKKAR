@@ -15,6 +15,7 @@ import Testimonials from "@/components/sections/Testimonials";
 import Partners from "@/components/sections/Partners";
 import Newsletter from "@/components/sections/Newsletter";
 import Contact from "@/components/sections/Contact";
+import Waitlist from "@/components/sections/Waitlist";
 import Preloader from "@/components/ui/Preloader";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 import Chatbot from "@/components/ui/Chatbot";
@@ -35,6 +36,7 @@ export default function Home() {
         <Roadmap />
         <Blog />
         <Changelog />
+        <Waitlist standalone />
         <Careers />
         <Testimonials />
         <Partners />

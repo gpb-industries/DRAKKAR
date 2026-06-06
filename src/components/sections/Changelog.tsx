@@ -39,7 +39,10 @@ const entries = [
     type: "minor",
     changes: [
       { text: "Landing page de DevSactum", type: "feature" },
-      { text: "Sistema de waitlist", type: "feature" },
+      { text: "Sistema de waitlist con D1 database", type: "feature" },
+      { text: "Waitlist inline en sección DevSactum", type: "feature" },
+      { text: "Sección independiente de Waitlist con counter", type: "feature" },
+      { text: "Share en Twitter/X post-registro", type: "feature" },
       { text: "Página de documentación", type: "feature" },
     ],
   },

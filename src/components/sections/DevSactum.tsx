@@ -17,6 +17,7 @@ import {
   Briefcase,
   PenTool,
 } from "lucide-react";
+import Waitlist from "@/components/sections/Waitlist";
 
 const features = [
   {
@@ -257,16 +258,19 @@ export default function DevSactum() {
           </div>
         </motion.div>
 
+        {/* Waitlist */}
+        <Waitlist />
+
         {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center"
+          className="text-center mt-12"
         >
           <a
-            href="#contact"
+            href="#waitlist"
             className="group inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-gold to-[#FFA500] text-[#050816] font-semibold text-sm hover:shadow-[0_0_50px_rgba(255,215,0,0.25)] transition-all duration-300"
           >
             <Globe size={18} />
